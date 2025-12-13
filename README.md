@@ -100,6 +100,60 @@ The planet is responsible for deciding whether a position is valid.
 
 ---
 
+## API Usage
+
+The backend exposes a single API endpoint to execute rover commands.
+
+### Endpoint
+
+```
+POST /api/rover/execute
+```
+
+### Request example
+
+```json
+{
+  "position": { "x": 0, "y": 0 },
+  "direction": "N",
+  "commands": "FFRFF",
+  "planet": {
+    "width": 200,
+    "height": 200,
+    "obstacles": [[2, 2]]
+  }
+}
+```
+
+### Successful response
+
+```json
+{
+  "status": "OK",
+  "position": { "x": 2, "y": 2 },
+  "direction": "E"
+}
+```
+
+### Response when an obstacle is found
+
+```json
+{
+  "status": "OBSTACLE",
+  "position": { "x": 1, "y": 2 },
+  "direction": "N",
+  "obstacle": { "x": 2, "y": 2 }
+}
+```
+
+### Notes
+
+- Commands are executed sequentially.
+- Execution stops immediately when an obstacle is detected.
+- Remaining commands are not executed after an obstacle.
+
+---
+
 ## Run the Project
 
 ### Requirements
