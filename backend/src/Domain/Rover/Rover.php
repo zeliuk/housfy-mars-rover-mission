@@ -4,22 +4,19 @@
 declare(strict_types=1);
 
 namespace Domain\Rover;
+use Domain\Planet\Planet;
 
 final class Rover
 {
-    private const PLANET_MAX = 199;
-    private array $obstacles;
-
     private int $x;
     private int $y;
     private string $direction;
 
-    public function __construct(int $x, int $y, string $direction, array $obstacles = [])
+    public function __construct(int $x, int $y, string $direction)
     {
         $this->x = $x;
         $this->y = $y;
         $this->direction = $direction;
-        $this->obstacles = $obstacles;
     }
 
     public function x(): int
@@ -53,26 +50,14 @@ final class Rover
 
     public function moveForward(): void
     {
-        if ($this->direction === 'N' && $this->y < self::PLANET_MAX) {
-            $this->y++;
-            return;
-        }
-
-        if ($this->direction === 'E' && $this->x < self::PLANET_MAX) {
-            $this->x++;
-            return;
-        }
-
-        if ($this->direction === 'S' && $this->y > 0) {
-            $this->y--;
-            return;
-        }
-
-        if ($this->direction === 'W' && $this->x > 0) {
-            $this->x--;
-            return;
-        }
+        match ($this->direction) {
+            'N' => $this->y++,
+            'E' => $this->x++,
+            'S' => $this->y--,
+            'W' => $this->x--,
+        };
     }
+
 
     private function nextPosition(): array
     {
@@ -84,28 +69,15 @@ final class Rover
         };
     }
 
-    private function obstacleAhead(): ?array
-    {
-        [$nextX, $nextY] = $this->nextPosition();
-
-        foreach ($this->obstacles as $obstacle) {
-            if ($obstacle[0] === $nextX && $obstacle[1] === $nextY) {
-                return $obstacle;
-            }
-        }
-
-        return null;
-    }
-
-    public function execute(string $commands): ?array
+    public function execute(string $commands, Planet $planet): ?array
     {
         foreach (str_split($commands) as $command) {
 
             if ($command === 'F') {
-                $obstacle = $this->obstacleAhead();
+                [$nextX, $nextY] = $this->nextPosition();
 
-                if ($obstacle !== null) {
-                    return ['obstacle' => $obstacle];
+                if (! $planet->roverCanMoveTo($nextX, $nextY)) {
+                    return ['obstacle' => $planet->planetObstacleAt($nextX, $nextY)];
                 }
 
                 $this->moveForward();
@@ -121,5 +93,6 @@ final class Rover
 
         return null;
     }
+
 
 }

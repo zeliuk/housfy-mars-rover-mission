@@ -34,6 +34,9 @@ If an obstacle is detected:
 - the remaining commands are not executed
 - the obstacle position is returned
 
+The planet is a square grid of **200 × 200**.
+The rover cannot leave the planet limits.
+
 ---
 
 ## Development Approach
@@ -55,25 +58,45 @@ The backend runs on PHP 8.2 and is exposed as an API-only Laravel application.
 
 ## Testing and TDD
 
-The project follows a Test-Driven Development (TDD) approach using PHPUnit.
+The project uses **PHPUnit** for testing.
 
-The core business logic is implemented in a framework-independent domain layer,
-located in the `Domain` directory. This domain is not coupled to Laravel or HTTP.
+All business rules are tested at the unit level, focusing on observable behavior
+rather than implementation details.
 
-Tests are written first under `tests/Unit`, and production code is implemented
-incrementally to satisfy those tests.
+Tests are located under:
+
+```
+tests/Unit
+```
+
+The domain logic is tested independently from the framework.
 
 ---
 
-## Domain structure
+## Domain Structure
 
-The `Rover` domain model represents the rover state (position and direction).
+The domain is implemented under the `Domain` namespace and is independent from Laravel.
 
-At this stage, the Rover only exposes its initial state. All behavior is added
-progressively following TDD principles.
+### Rover
 
-All domain classes use strict typing to avoid implicit type conversions and ensure
-predictable behavior.
+The `Rover` domain model represents:
+- current position (`x`, `y`)
+- current direction (`N`, `E`, `S`, `W`)
+- execution of command sequences
+
+The rover:
+- can turn left and right
+- can move forward
+- executes commands sequentially
+- aborts execution when an obstacle or invalid move is detected
+
+### Planet
+
+The `Planet` domain model represents:
+- planet limits (200 × 200)
+- obstacle positions
+
+The planet is responsible for deciding whether a position is valid.
 
 ---
 

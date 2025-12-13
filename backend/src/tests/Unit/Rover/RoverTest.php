@@ -6,6 +6,7 @@ namespace Tests\Unit\Rover;
 
 use PHPUnit\Framework\TestCase;
 use Domain\Rover\Rover;
+use Domain\Planet\Planet;
 
 final class RoverTest extends TestCase
 {
@@ -124,16 +125,18 @@ final class RoverTest extends TestCase
     //Rover commands
     public function test_rover_executes_single_left_command(): void
     {
+        $planet = new Planet(199, 199);
         $rover = new Rover(0, 0, 'N');
-        $rover->execute('L');
+        $rover->execute('L', $planet);
         $this->assertSame('W', $rover->direction());
     }
 
     public function test_rover_executes_multiple_commands(): void
     {
+        $planet = new Planet(199, 199);
         $rover = new Rover(0, 0, 'N');
 
-        $rover->execute('FFR');
+        $rover->execute('FFR', $planet);
 
         $this->assertSame(0, $rover->x());
         $this->assertSame(2, $rover->y());
@@ -143,9 +146,10 @@ final class RoverTest extends TestCase
     //Rover mars planet limit
     public function test_rover_does_not_move_beyond_northern_limit(): void
     {
+        $planet = new Planet(199, 199);
         $rover = new Rover(0, 199, 'N');
 
-        $rover->moveForward();
+        $rover->execute('F', $planet);
 
         $this->assertSame(0, $rover->x());
         $this->assertSame(199, $rover->y());
@@ -153,9 +157,10 @@ final class RoverTest extends TestCase
 
     public function test_rover_does_not_move_beyond_southern_limit(): void
     {
+        $planet = new Planet(199, 199);
         $rover = new Rover(0, 0, 'S');
 
-        $rover->moveForward();
+        $rover->execute('F', $planet);
 
         $this->assertSame(0, $rover->x());
         $this->assertSame(0, $rover->y());
@@ -163,9 +168,10 @@ final class RoverTest extends TestCase
 
     public function test_rover_does_not_move_beyond_eastern_limit(): void
     {
+        $planet = new Planet(199, 199);
         $rover = new Rover(199, 0, 'E');
 
-        $rover->moveForward();
+        $rover->execute('F', $planet);
 
         $this->assertSame(199, $rover->x());
         $this->assertSame(0, $rover->y());
@@ -173,9 +179,10 @@ final class RoverTest extends TestCase
 
     public function test_rover_does_not_move_beyond_western_limit(): void
     {
+        $planet = new Planet(199, 199);
         $rover = new Rover(0, 0, 'W');
 
-        $rover->moveForward();
+        $rover->execute('F', $planet);
 
         $this->assertSame(0, $rover->x());
         $this->assertSame(0, $rover->y());
@@ -184,10 +191,10 @@ final class RoverTest extends TestCase
     //Rover reports obstacle
     public function test_rover_stops_and_reports_obstacle(): void
     {
-        $obstacles = [[0, 1]];
-        $rover = new Rover(0, 0, 'N', $obstacles);
+        $planet = new Planet(199, 199, [[0, 1]]);
+        $rover = new Rover(0, 0, 'N');
 
-        $result = $rover->execute('F');
+        $result = $rover->execute('F', $planet);
 
         $this->assertSame(0, $rover->x());
         $this->assertSame(0, $rover->y());
