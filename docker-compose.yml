@@ -14,8 +14,7 @@ services:
     build:
       context: ./frontend
     container_name: housfy-mars-rover-frontend
-    working_dir: /app
     volumes:
-      - ./frontend/src:/app
+      - ./frontend:/app
     ports:
       - "5173:5173"
