@@ -1,0 +1,21 @@
+services:
+  backend:
+    build:
+      context: ./backend
+    container_name: housfy-mars-rover-backend
+    working_dir: /var/www
+    volumes:
+      - ./backend/src:/var/www
+    ports:
+      - "8000:8000"
+    command: php artisan serve --host=0.0.0.0 --port=8000
+
+  frontend:
+    build:
+      context: ./frontend
+    container_name: housfy-mars-rover-frontend
+    working_dir: /app
+    volumes:
+      - ./frontend/src:/app
+    ports:
+      - "5173:5173"
