@@ -1,1 +1,19 @@
 @import "tailwindcss";
+
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&display=swap');
+
+* {
+    font-family: Manrope, sans-serif;
+}
+
+.border-housfy-blue {
+    border-color: #11aefa;
+}
+
+.bg-housfysoft {
+    background: #ebf8ff;
+}
+
+.bg-housfy {
+    background-color: #11aefa;
+}
