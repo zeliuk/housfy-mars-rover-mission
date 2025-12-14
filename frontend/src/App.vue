@@ -1,3 +1,24 @@
+<script setup>
+import { reactive, ref } from "vue";
+
+const loading = ref(false);
+const result = ref(null);
+const apiError = ref(null);
+
+const planetConfig = {
+  width: 200,
+  height: 200,
+  obstacles: [[2, 2]],
+};
+
+const rover = reactive({
+  x: "",
+  y: "",
+  direction: "",
+  commands: "",
+});
+</script>
+
 <template>
   <div class="min-h-screen bg-slate-50">
     <!-- Header -->
