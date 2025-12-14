@@ -1,5 +1,5 @@
 <script setup>
-import { reactive, ref } from "vue";
+import { reactive, computed, ref } from "vue";
 
 const loading = ref(false);
 const result = ref(null);
@@ -17,6 +17,37 @@ const rover = reactive({
   direction: "",
   commands: "",
 });
+
+const touched = reactive({
+  x: false,
+  y: false,
+  direction: false,
+  commands: false,
+});
+
+const errors = computed(() => {
+  const e = {};
+
+  if (rover.x === "" || rover.x < 0 || rover.x > 199) {
+    e.x = "La X ha d'estar entre 0 i 199";
+  }
+
+  if (rover.y === "" || rover.y < 0 || rover.y > 199) {
+    e.y = "La Y ha d'estar entre 0 i 199";
+  }
+
+  if (!["N", "E", "S", "W"].includes(rover.direction)) {
+    e.direction = "Escull una orientació vàlida";
+  }
+
+  if (!rover.commands || !/^[FLR]+$/i.test(rover.commands)) {
+    e.commands = "Només es permeten les ordres F, L i R";
+  }
+
+  return e;
+});
+
+const isValid = computed(() => Object.keys(errors.value).length === 0);
 </script>
 
 <template>
@@ -55,84 +86,127 @@ const rover = reactive({
             </div>
 
             <div class="p-5">
-              <form class="space-y-4">
-                <!-- Coordinates -->
-                <div class="grid grid-cols-2 gap-3">
-                  <div>
-                    <label class="block text-xs font-medium text-slate-700"
-                      >X</label
-                    >
-                    <input
-                      v-model.number="rover.x"
-                      type="number"
-                      placeholder="0 - 199"
-                      class="mt-1 w-full rounded-lg border px-3 py-3 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 border-slate-300"
-                    />
+              <div class="">
+                <form class="space-y-4">
+                  <!-- Coordinates -->
+                  <div class="grid grid-cols-2 gap-3">
+                    <div>
+                      <label class="block text-xs font-medium text-slate-700"
+                        >X</label
+                      >
+                      <input
+                        v-model.number="rover.x"
+                        type="number"
+                        @blur="touched.x = true"
+                        placeholder="0 - 199"
+                        class="mt-1 w-full rounded-lg border px-3 py-3 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 border-slate-300"
+                      />
+                      <p
+                        v-if="touched.x && errors.x"
+                        class="text-xs text-red-600 mt-1"
+                      >
+                        {{ errors.x }}
+                      </p>
+                    </div>
+
+                    <div>
+                      <label class="block text-xs font-medium text-slate-700"
+                        >Y</label
+                      >
+                      <input
+                        v-model.number="rover.y"
+                        type="number"
+                        @blur="touched.y = true"
+                        placeholder="0 - 199"
+                        class="mt-1 w-full rounded-lg border px-3 py-3 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 border-slate-300"
+                      />
+                      <p
+                        v-if="touched.y && errors.y"
+                        class="text-xs text-red-600 mt-1"
+                      >
+                        {{ errors.y }}
+                      </p>
+                    </div>
                   </div>
 
+                  <!-- Direction -->
                   <div>
-                    <label class="block text-xs font-medium text-slate-700"
-                      >Y</label
+                    <label class="block text-xs font-medium text-slate-700">
+                      Orientació
+                    </label>
+                    <select
+                      v-model="rover.direction"
+                      @blur="touched.direction = true"
+                      class="mt-1 w-full rounded-lg border px-3 py-3 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 border-slate-300"
                     >
+                      <option value="">Escull orientació</option>
+                      <option value="N">Nord (N)</option>
+                      <option value="E">Est (E)</option>
+                      <option value="S">Sud (S)</option>
+                      <option value="W">Oest (W)</option>
+                    </select>
+                    <p
+                      v-if="touched.direction && errors.direction"
+                      class="text-xs text-red-600 mt-1"
+                    >
+                      {{ errors.direction }}
+                    </p>
+                  </div>
+
+                  <!-- Commands -->
+                  <div>
+                    <label class="block text-xs font-medium text-slate-700">
+                      Ordres
+                    </label>
                     <input
-                      v-model.number="rover.y"
-                      type="number"
-                      placeholder="0 - 199"
+                      :value="rover.commands"
+                      @input="
+                        rover.commands = $event.target.value.toUpperCase()
+                      "
+                      type="text"
+                      @blur="touched.commands = true"
+                      placeholder="FFRFFL"
                       class="mt-1 w-full rounded-lg border px-3 py-3 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 border-slate-300"
                     />
+                    <p class="mt-1 text-xs text-slate-500">
+                      Ordres permeses: F, L, R
+                    </p>
+                    <p
+                      v-if="touched.commands && errors.commands"
+                      class="text-xs text-red-600 mt-1"
+                    >
+                      {{ errors.commands }}
+                    </p>
                   </div>
-                </div>
 
-                <!-- Direction -->
-                <div>
-                  <label class="block text-xs font-medium text-slate-700"
-                    >Orientació</label
-                  >
-                  <select
-                    v-model="rover.direction"
-                    class="mt-1 w-full rounded-lg border px-3 py-3 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 border-slate-300"
-                  >
-                    <option value="">Escull orientació</option>
-                    <option value="N">Nord (N)</option>
-                    <option value="E">Est (E)</option>
-                    <option value="S">Sud (S)</option>
-                    <option value="W">Oest (W)</option>
-                  </select>
-                </div>
+                  <!-- Actions -->
+                  <div class="flex gap-2 pt-2">
+                    <button
+                      type="button"
+                      :disabled="!isValid || loading"
+                      @click="executeRover"
+                      class="cursor-pointer w-full rounded-lg bg-housfy px-4 py-3 text-md font-bold text-white transition disabled:bg-slate-200 disabled:text-white disabled:opacity-60 disabled:cursor-auto"
+                    >
+                      <span v-if="!loading">Executar</span>
+                      <span v-else>S'està executant...</span>
+                    </button>
 
-                <!-- Commands -->
-                <div>
-                  <label class="block text-xs font-medium text-slate-700"
-                    >Ordres</label
-                  >
-                  <input
-                    v-model="rover.commands"
-                    type="text"
-                    placeholder="FFRFFL"
-                    class="mt-1 w-full rounded-lg border px-3 py-3 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 border-slate-300"
-                  />
-                  <p class="mt-1 text-xs text-slate-500">
-                    Ordres permeses: F, L, R
-                  </p>
-                </div>
+                    <button
+                      type="button"
+                      class="cursor-pointer rounded-lg bg-white px-4 py-3 text-md font-bold text-black ring-1 ring-slate-200"
+                    >
+                      Resetejar
+                    </button>
+                  </div>
+                </form>
+              </div>
 
-                <!-- Actions -->
-                <div class="flex gap-2 pt-2">
-                  <button
-                    type="button"
-                    class="cursor-pointer w-full rounded-lg bg-housfy px-4 py-3 text-md font-bold text-white transition"
-                  >
-                    Executar
-                  </button>
-
-                  <button
-                    type="button"
-                    class="cursor-pointer rounded-lg bg-white px-4 py-3 text-md font-bold text-black ring-1 ring-slate-200"
-                  >
-                    Resetejar
-                  </button>
-                </div>
-              </form>
+              <div
+                v-if="apiError"
+                class="mt-4 rounded-lg bg-red-50 p-3 text-sm text-red-700"
+              >
+                {{ apiError }}
+              </div>
             </div>
           </div>
         </section>
