@@ -62,6 +62,44 @@ const resetForm = () => {
   result.value = null;
   apiError.value = null;
 };
+
+const executeRover = async () => {
+  touched.x = touched.y = touched.direction = touched.commands = true;
+
+  if (!isValid.value) return;
+
+  loading.value = true;
+  apiError.value = null;
+  result.value = null;
+
+  try {
+    const response = await fetch("/api/rover/execute", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+      body: JSON.stringify({
+        position: { x: rover.x, y: rover.y },
+        direction: rover.direction,
+        commands: rover.commands,
+        planet: planetConfig,
+      }),
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error();
+    }
+
+    result.value = data;
+  } catch {
+    apiError.value = "No s'han pogut executar les ordres";
+  } finally {
+    loading.value = false;
+  }
+};
 </script>
 
 <template>
