@@ -278,7 +278,40 @@ const executeRover = async () => {
             </div>
 
             <div class="p-5">
-              <!-- (vacío por ahora) -->
+              <div
+                v-if="result"
+                class="mt-4 rounded-md border px-4 py-6"
+                :class="{
+                  'bg-red-50 border-red-300':
+                    result.status === 'OBSTACLE' && result.obstacle !== null,
+                  'bg-orange-50 border-orange-300':
+                    result.status === 'OBSTACLE' && result.obstacle === null,
+                  'bg-gray-100 border-gray-300': result.status === 'OK',
+                }"
+              >
+                <p class="mt-1">
+                  Posició actual:
+                  <strong
+                    >{{ result.position.x }}, {{ result.position.y }}</strong
+                  >
+                </p>
+
+                <p>
+                  Orientació: <strong>{{ result.direction }}</strong>
+                </p>
+
+                <p v-if="result.obstacle" class="mt-1 text-red-700">
+                  Obstacle detectat a la posició ({{ result.obstacle.x }},
+                  {{ result.obstacle.y }})
+                </p>
+
+                <p
+                  v-else-if="result.status === 'OBSTACLE'"
+                  class="mt-1 text-yellow-700"
+                >
+                  El Rover ha arribat al límit del planeta
+                </p>
+              </div>
             </div>
           </div>
         </section>
