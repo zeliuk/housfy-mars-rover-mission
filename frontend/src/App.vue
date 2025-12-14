@@ -48,6 +48,20 @@ const errors = computed(() => {
 });
 
 const isValid = computed(() => Object.keys(errors.value).length === 0);
+
+const resetForm = () => {
+  rover.x = "";
+  rover.y = "";
+  rover.direction = "";
+  rover.commands = "";
+
+  Object.keys(touched).forEach((key) => {
+    touched[key] = false;
+  });
+
+  result.value = null;
+  apiError.value = null;
+};
 </script>
 
 <template>
@@ -194,6 +208,7 @@ const isValid = computed(() => Object.keys(errors.value).length === 0);
                     <button
                       type="button"
                       class="cursor-pointer rounded-lg bg-white px-4 py-3 text-md font-bold text-black ring-1 ring-slate-200"
+                      @click="resetForm"
                     >
                       Resetejar
                     </button>
