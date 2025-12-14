@@ -55,7 +55,84 @@ const rover = reactive({
             </div>
 
             <div class="p-5">
-              <!-- (vacío por ahora) -->
+              <form class="space-y-4">
+                <!-- Coordinates -->
+                <div class="grid grid-cols-2 gap-3">
+                  <div>
+                    <label class="block text-xs font-medium text-slate-700"
+                      >X</label
+                    >
+                    <input
+                      v-model.number="rover.x"
+                      type="number"
+                      placeholder="0 - 199"
+                      class="mt-1 w-full rounded-lg border px-3 py-3 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 border-slate-300"
+                    />
+                  </div>
+
+                  <div>
+                    <label class="block text-xs font-medium text-slate-700"
+                      >Y</label
+                    >
+                    <input
+                      v-model.number="rover.y"
+                      type="number"
+                      placeholder="0 - 199"
+                      class="mt-1 w-full rounded-lg border px-3 py-3 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 border-slate-300"
+                    />
+                  </div>
+                </div>
+
+                <!-- Direction -->
+                <div>
+                  <label class="block text-xs font-medium text-slate-700"
+                    >Orientació</label
+                  >
+                  <select
+                    v-model="rover.direction"
+                    class="mt-1 w-full rounded-lg border px-3 py-3 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 border-slate-300"
+                  >
+                    <option value="">Escull orientació</option>
+                    <option value="N">Nord (N)</option>
+                    <option value="E">Est (E)</option>
+                    <option value="S">Sud (S)</option>
+                    <option value="W">Oest (W)</option>
+                  </select>
+                </div>
+
+                <!-- Commands -->
+                <div>
+                  <label class="block text-xs font-medium text-slate-700"
+                    >Ordres</label
+                  >
+                  <input
+                    v-model="rover.commands"
+                    type="text"
+                    placeholder="FFRFFL"
+                    class="mt-1 w-full rounded-lg border px-3 py-3 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 border-slate-300"
+                  />
+                  <p class="mt-1 text-xs text-slate-500">
+                    Ordres permeses: F, L, R
+                  </p>
+                </div>
+
+                <!-- Actions -->
+                <div class="flex gap-2 pt-2">
+                  <button
+                    type="button"
+                    class="cursor-pointer w-full rounded-lg bg-housfy px-4 py-3 text-md font-bold text-white transition"
+                  >
+                    Executar
+                  </button>
+
+                  <button
+                    type="button"
+                    class="cursor-pointer rounded-lg bg-white px-4 py-3 text-md font-bold text-black ring-1 ring-slate-200"
+                  >
+                    Resetejar
+                  </button>
+                </div>
+              </form>
             </div>
           </div>
         </section>
