@@ -45,6 +45,9 @@ final class RoverController extends Controller
         }
 
         if ($result !== null) {
+
+            $obstacle = $result['obstacle'] ?? null;
+
             return response()->json([
                 'status' => 'OBSTACLE',
                 'position' => [
@@ -52,12 +55,13 @@ final class RoverController extends Controller
                     'y' => $rover->y(),
                 ],
                 'direction' => $rover->direction(),
-                'obstacle' => [
-                    'x' => $result['obstacle'][0],
-                    'y' => $result['obstacle'][1],
-                ],
+                'obstacle' => $obstacle !== null ? [
+                    'x' => $obstacle[0],
+                    'y' => $obstacle[1],
+                ] : null,
             ]);
         }
+
 
         return response()->json([
             'status' => 'OK',
