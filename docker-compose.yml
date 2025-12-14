@@ -4,8 +4,6 @@ services:
       context: ./backend
     container_name: housfy-mars-rover-backend
     working_dir: /var/www
-    volumes:
-      - ./backend/src:/var/www
     ports:
       - "8000:8000"
     command: php artisan serve --host=0.0.0.0 --port=8000
@@ -14,7 +12,5 @@ services:
     build:
       context: ./frontend
     container_name: housfy-mars-rover-frontend
-    volumes:
-      - ./frontend:/app
     ports:
       - "5173:5173"
