@@ -244,6 +244,14 @@ If an error occurs during execution:
 
 ---
 
+## Frontend Result Outputs
+
+| Success | Obstacle | Planet Limit |
+|--------|----------|------------|
+| ![](screenshots/frontend_output_ok.png) | ![](screenshots/frontend_output_obstacle.png) | ![](screenshots/frontend_output_limit.png) |
+
+---
+
 ## Run the Project
 
 ### Requirements
