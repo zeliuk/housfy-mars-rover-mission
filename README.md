@@ -193,6 +193,8 @@ Its responsibilities are limited to:
 
 No business logic related to rover movement exists in the frontend.
 
+![Frontend](screenshots/frontend.png)
+
 ---
 
 ## Frontend Architecture
@@ -229,6 +231,16 @@ The frontend handles two types of errors:
 If an error occurs during execution:
 - the user is informed
 - the last valid rover position is displayed when returned by the backend
+
+![Frontend validation](screenshots/frontend_validation.png)
+
+---
+
+## Frontend Result Outputs
+
+![Frontend output OK](screenshots/frontend_output_ok.png)
+![Frontend output OBSTACLE](screenshots/frontend_output_obstacle.png)
+![Frontend output PLANET Limit](screenshots/frontend_output_limit.png)
 
 ---
 
