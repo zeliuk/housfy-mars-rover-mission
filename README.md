@@ -146,11 +146,79 @@ POST /api/rover/execute
 }
 ```
 
+### Response when reach planet limit
+
+```json
+{
+  "status": "OBSTACLE",
+  "position": { "x": 0, "y": 0 },
+  "direction": "W",
+  "obstacle": null
+}
+```
+
 ### Notes
 
 - Commands are executed sequentially.
 - Execution stops immediately when an obstacle is detected.
 - Remaining commands are not executed after an obstacle.
+
+### Obstacle Configuration
+
+Obstacles are defined on the frontend and included in the API request.
+The current setup uses a single obstacle at position `(2, 2)`.
+
+
+---
+
+## Frontend Overview
+
+The frontend is built with Vue.js 3 using the Composition API.
+
+Its responsibilities are limited to:
+- collecting user input
+- validating form data
+- sending requests to the backend API
+- displaying the execution result
+
+No business logic related to rover movement exists in the frontend.
+
+---
+
+## Frontend Architecture
+
+The frontend uses the following Vue 3 concepts:
+
+- `ref` for simple reactive state (loading, API errors, results)
+- `reactive` for grouped state objects (form data)
+- `computed` for derived state (form validation)
+- `fetch` for HTTP communication with the backend
+
+Form validation is handled on the client side to provide immediate feedback to the user.
+
+---
+
+## Validation Strategy
+
+Client-side validation ensures:
+- coordinates are within planet limits (0–199)
+- direction is one of `N`, `E`, `S`, `W`
+- commands only contain `F`, `L` or `R` in uppercase
+
+The backend performs the final validation and execution.
+The frontend does not assume the backend will always return a successful result.
+
+---
+
+## Error Handling
+
+The frontend handles two types of errors:
+- validation errors before sending the request
+- API or execution errors returned by the backend
+
+If an error occurs during execution:
+- the user is informed
+- the last valid rover position is displayed when returned by the backend
 
 ---
 
@@ -179,7 +247,7 @@ This command starts:
 From the project root:
 
 ```bash
-docker compose exec backend php artisan test
+docker compose exec backend php artisan test --testsuite=Unit
 ```
 
 This runs the PHPUnit test suite inside the Docker container.
