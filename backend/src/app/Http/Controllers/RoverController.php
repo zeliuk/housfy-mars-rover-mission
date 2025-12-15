@@ -14,7 +14,7 @@ final class RoverController extends Controller
             'position.x' => 'required|integer',
             'position.y' => 'required|integer',
             'direction' => 'required|in:N,E,S,W',
-            'commands' => 'required|string',
+            'commands' => 'required|string|regex:/^[FLR]+$/',
 
             'planet.width' => 'required|integer|min:1',
             'planet.height' => 'required|integer|min:1',
