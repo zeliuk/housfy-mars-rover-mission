@@ -238,9 +238,9 @@ If an error occurs during execution:
 
 ## Frontend Result Outputs
 
-![Frontend output OK](screenshots/frontend_output_ok.png)
-![Frontend output OBSTACLE](screenshots/frontend_output_obstacle.png)
-![Frontend output PLANET Limit](screenshots/frontend_output_limit.png)
+| Success | Obstacle | Planet Limit |
+|--------|----------|------------|
+| ![](screenshots/frontend_output_ok.png) | ![](screenshots/frontend_output_obstacle.png) | ![](screenshots/frontend_output_limit.png) |
 
 ---
 
