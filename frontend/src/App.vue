@@ -5,6 +5,8 @@ const loading = ref(false);
 const result = ref(null);
 const apiError = ref(null);
 
+// Planet configuration is defined on the frontend for simplicity.
+// Obstacles are currently static and sent to the backend with each execution.
 const planetConfig = {
   width: 200,
   height: 200,

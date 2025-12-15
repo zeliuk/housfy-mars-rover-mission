@@ -23,6 +23,7 @@ final class RoverController extends Controller
             'planet.obstacles.*.1' => 'required|integer',
         ]);
 
+        // Planet dimensions are converted to zero-based coordinates (width-1, height-1)
         $planet = new Planet(
             $data['planet']['width'] - 1,
             $data['planet']['height'] - 1,

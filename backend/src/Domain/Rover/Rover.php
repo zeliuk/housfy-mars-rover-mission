@@ -1,6 +1,5 @@
 <?php
 
-//To avoid implicit type conversions and make the logic more predictable.
 declare(strict_types=1);
 
 namespace Domain\Rover;
@@ -58,7 +57,7 @@ final class Rover
         };
     }
 
-
+    // Calculates the next position without mutating the rover state
     private function nextPosition(): array
     {
         return match ($this->direction) {
@@ -69,6 +68,7 @@ final class Rover
         };
     }
 
+    // Executes commands sequentially and stops at the first obstacle found
     public function execute(string $commands, Planet $planet): ?array
     {
         foreach (str_split($commands) as $command) {
