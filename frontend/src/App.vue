@@ -75,9 +75,9 @@ const executeRover = async () => {
   result.value = null;
 
   try {
-    const apiBaseUrl = import.meta.env.VITE_API_URL;
+    const API_BASE_URL = "https://housfy-mars-rover-mission.onrender.com";
 
-    const response = await fetch(`${apiBaseUrl}/api/rover/execute`, {
+    const response = await fetch(`${API_BASE_URL}/api/rover/execute`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
