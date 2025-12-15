@@ -47,6 +47,19 @@ independent from HTTP and framework concerns.
 
 ---
 
+## API Testing
+
+A Postman collection is included in the repository under the `/postman` folder.
+
+The collection contains several requests that call the same API endpoint
+using different inputs in order to demonstrate:
+- normal rover execution
+- obstacle detection
+- planet limits checks
+- input validation errors
+
+---
+
 ## Project setup
 
 The project is fully Dockerized. A single `docker-compose.yml` file at the root

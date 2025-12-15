@@ -1,0 +1,216 @@
+{
+	"info": {
+		"_postman_id": "2da3b20a-354e-4921-bc2f-bcc743035303",
+		"name": "Housfy Mars Rover Mission",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "44196499",
+		"_collection_link": "https://carlos-9695637.postman.co/workspace/Carlos's-Workspace~021fc0d1-8895-463c-8c7c-0098dee2e2a8/collection/44196499-2da3b20a-354e-4921-bc2f-bcc743035303?action=share&source=collection_link&creator=44196499"
+	},
+	"item": [
+		{
+			"name": "Rover execute - Valid movement",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"position\": { \"x\": 0, \"y\": 0 },\n  \"direction\": \"N\",\n  \"commands\": \"FFRF\",\n  \"planet\": {\n    \"width\": 200,\n    \"height\": 200,\n    \"obstacles\": [[2, 2]]\n  }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8000/api/rover/execute",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"rover",
+						"execute"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Rover execute - Obstacle detected",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"position\": { \"x\": 0, \"y\": 0 },\n  \"direction\": \"N\",\n  \"commands\": \"FFRFF\",\n  \"planet\": {\n    \"width\": 200,\n    \"height\": 200,\n    \"obstacles\": [[2, 2]]\n  }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8000/api/rover/execute",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"rover",
+						"execute"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Rover execute - Planet limits",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"position\": { \"x\": 199, \"y\": 199 },\n  \"direction\": \"N\",\n  \"commands\": \"F\",\n  \"planet\": {\n    \"width\": 200,\n    \"height\": 200,\n    \"obstacles\": [[2, 2]]\n  }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8000/api/rover/execute",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"rover",
+						"execute"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Rover execute - Invalid direction",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"position\": { \"x\": 0, \"y\": 0 },\n  \"direction\": \"A\",\n  \"commands\": \"FFR\",\n  \"planet\": {\n    \"width\": 200,\n    \"height\": 200,\n    \"obstacles\": [[2, 2]]\n  }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8000/api/rover/execute",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"rover",
+						"execute"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Rover execute - Invalid commands",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"position\": { \"x\": 0, \"y\": 0 },\n  \"direction\": \"N\",\n  \"commands\": \"FFXFF\",\n  \"planet\": {\n    \"width\": 200,\n    \"height\": 200,\n    \"obstacles\": [[2, 2]]\n  }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8000/api/rover/execute",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"rover",
+						"execute"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
