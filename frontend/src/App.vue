@@ -75,7 +75,9 @@ const executeRover = async () => {
   result.value = null;
 
   try {
-    const response = await fetch("/api/rover/execute", {
+    const apiBaseUrl = import.meta.env.VITE_API_URL;
+
+    const response = await fetch(`${apiBaseUrl}/api/rover/execute`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
